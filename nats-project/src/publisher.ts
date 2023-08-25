@@ -1,5 +1,8 @@
 import nats from 'node-nats-streaming'
 
+//to clear the console with unrelated ts node info
+console.clear()
+
 //stan is equivalent to client, it is just a NATS terminology
 const stan = nats.connect('vintagegalleria', 'abc', {
   url: 'http://localhost:4222' // we are trying to connect to NATS running in a pod in K8
