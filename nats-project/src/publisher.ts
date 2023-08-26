@@ -1,5 +1,9 @@
 import nats from 'node-nats-streaming'
 import { randomBytes } from 'crypto'
+import { ArtifactCreatedPublisher } from './events/artifact-created-publisher'
+import { Publisher } from './events/base-publisher'
+
+
 
 //to clear the console with unrelated ts node info
 console.clear()
@@ -14,18 +18,14 @@ const stan = nats.connect('vintagegalleria', randomBytes(4).toString('hex'), {
 stan.on('connect', () => {
   console.log('Publisher connected to NATS')
 
-// data to be sent to the event bus
+  const publisher = new ArtifactCreatedPublisher(stan)
+
+  // data to be sent to the event bus
 // data has to be a string only hence JSON.stringify
-  const data = JSON.stringify({
+  publisher.publish({
     id: '123',
     title: 'Vase',
     price: 180
-  })
-
-  //publishing the event 
-  // params: channel, dataToBePublished, callback function
-  stan.publish('artifact:created', data, () => {
-    console.log('Event Published')
   })
 
 })
