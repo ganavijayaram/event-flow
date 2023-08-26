@@ -1,7 +1,7 @@
 import nats from 'node-nats-streaming'
 import { randomBytes } from 'crypto'
 import { ArtifactCreatedPublisher } from './events/artifact-created-publisher'
-import { Publisher } from './events/base-publisher'
+
 
 
 
@@ -15,17 +15,21 @@ const stan = nats.connect('vintagegalleria', randomBytes(4).toString('hex'), {
 })
 
 //this is a callback because NATS uses callbacks and not await async
-stan.on('connect', () => {
+stan.on('connect',async () => {
   console.log('Publisher connected to NATS')
 
   const publisher = new ArtifactCreatedPublisher(stan)
+try {
 
   // data to be sent to the event bus
-// data has to be a string only hence JSON.stringify
-  publisher.publish({
+  // data has to be a string only hence JSON.stringify
+  await publisher.publish({
     id: '123',
     title: 'Vase',
     price: 180
   })
+} catch(err) {
+  console.error(err)
+}
 
 })
