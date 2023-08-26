@@ -1,10 +1,12 @@
 import nats from 'node-nats-streaming'
+import { randomBytes } from 'crypto'
 
 //to clear the console with unrelated ts node info
 console.clear()
 
 //stan is equivalent to client, it is just a NATS terminology
-const stan = nats.connect('vintagegalleria', 'abc', {
+//abc is the client id
+const stan = nats.connect('vintagegalleria', randomBytes(4).toString('hex'), {
   url: 'http://localhost:4222' // we are trying to connect to NATS running in a pod in K8
 })
 
