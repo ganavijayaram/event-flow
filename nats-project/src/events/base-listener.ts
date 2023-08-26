@@ -1,10 +1,20 @@
 import { Message, Stan } from "node-nats-streaming"
+import { Subjects } from "./subjects"
+
+// base class will need ot be generic, where we tell all the sublasses shold have subjects and data
+interface Event {
+  subject: Subjects
+  data: any
+}
 
 //creating abstract class to abstract the logic of the listeners
-export abstract class Listener {
+//evertime we are implementing the Listener we need give type for the Listener
+// this is generic class
+//T is like type
+export abstract class Listener<T extends Event> {
   // Abstract fields does not require initialization
-  abstract subject: string
-  abstract onMessage(data: any, msg: Message): void
+  abstract subject: T['subject']
+  abstract onMessage(data: T['data'], msg: Message): void
   abstract queueGroupName: string
 
   // private and public fields need to be initialised in constructor
