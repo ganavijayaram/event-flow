@@ -21,11 +21,11 @@ spec:
           '4222',
           '-m',
           '8222',
-          '-hbi',
+          '-hbi', #how often NATS will send the heart beat to its client
           '5s',
-          '-hbt',
+          '-hbt', #how long the client has to respond to the NATS
           '5s',
-          '-hbf',
+          '-hbf', #number of time the client can fail, before NATS will declare the client dead
           '2',
           '-SD',
           '-cid',
